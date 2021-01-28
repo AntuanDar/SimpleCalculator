@@ -1,10 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
 
-<AnchorPane fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CalculatorRootPane">
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="266.0" layoutY="61.0" styleClass="red-label" text="Label" />
+      <VBox layoutX="38.0" layoutY="4.0" prefHeight="293.0" prefWidth="335.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="textField" alignment="CENTER_RIGHT" prefHeight="69.0" prefWidth="335.0" promptText="0" />
+               </children>
+            </HBox>
+            <VBox prefHeight="250.0" prefWidth="400.0">
+               <children>
+                  <HBox prefHeight="43.0" prefWidth="335.0">
+                     <children>
+                        <Button fx:id="btnPercent" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="\%" />
+                        <Button fx:id="btnC" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="C" />
+                        <Button fx:id="btnRemove" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="&lt;-" />
+                        <Button fx:id="btnDiv" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="/" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="46.0" prefWidth="335.0">
+                     <children>
+                        <Button fx:id="btnSeven" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="7" />
+                        <Button fx:id="btnEight" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="8" />
+                        <Button fx:id="btnNine" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="9" />
+                        <Button fx:id="btnMult" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="*" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="48.0" prefWidth="335.0">
+                     <children>
+                        <Button fx:id="btnFour" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="4" />
+                        <Button fx:id="btnFive" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="5" />
+                        <Button fx:id="btnSix" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="6" />
+                        <Button fx:id="btnSub" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="-" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="45.0" prefWidth="335.0">
+                     <children>
+                        <Button fx:id="btnOne" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="1" />
+                        <Button fx:id="btnTwo" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="2" />
+                        <Button fx:id="btnThree" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="3" />
+                        <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="+" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="42.0" prefWidth="335.0">
+                     <children>
+                        <Button fx:id="btnSign" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="+/-" />
+                        <Button fx:id="btnZero" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="0" />
+                        <Button fx:id="btnDot" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="," />
+                        <Button fx:id="btnCalc" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="=" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
