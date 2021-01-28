@@ -1,3 +1,4 @@
+import common.AppStyles;
 import common.FxmlPaneLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -17,6 +18,12 @@ public class App extends Application {
         Scene scene = new Scene(calculatorRootPane.getRootPane(), 300, 400);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
+        setStylesheets(stage.getScene());
         stage.show();
+    }
+
+    private void setStylesheets(Scene scene) {
+        scene.getStylesheets().clear();
+        scene.getStylesheets().addAll(AppStyles.getStylesheet("styles.css"));
     }
 }
