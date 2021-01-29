@@ -15,7 +15,7 @@ public class App extends Application {
 
     public void start(Stage stage) throws Exception {
         calculatorRootPane = FxmlPaneLoader.loadPane(CalculatorRootPane.class);
-        Scene scene = new Scene(calculatorRootPane.getRootPane(), 300, 400);
+        Scene scene = new Scene(calculatorRootPane.getRootPane(), 400, 400);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         setStylesheets(stage.getScene());
