@@ -1,3 +1,4 @@
+import common.AppImages;
 import common.AppStyles;
 import common.FxmlPaneLoader;
 import javafx.application.Application;
@@ -21,6 +22,8 @@ public class App extends Application {
         setStylesheets(stage.getScene());
         stage.setMinWidth(450.0);
         stage.setMinHeight(450.0);
+        stage.getIcons().setAll(AppImages.getAppImages());
+        stage.setTitle("Калькулятор");
         stage.show();
     }
 
