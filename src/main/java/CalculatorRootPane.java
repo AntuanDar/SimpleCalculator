@@ -1,5 +1,7 @@
 import common.IFxmlPane;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -14,7 +16,12 @@ public class CalculatorRootPane implements IFxmlPane {
 
     @FXML
     public void initialize(){
+        rootPane.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
 
+            }
+        });
     }
 
     @Override
