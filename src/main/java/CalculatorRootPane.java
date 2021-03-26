@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
  * Описание:
  */
 public class CalculatorRootPane implements IFxmlPane {
-
+    //Element of JavaFX
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -39,6 +39,25 @@ public class CalculatorRootPane implements IFxmlPane {
     private Button btnEight;
     @FXML
     private Button btnNine;
+    @FXML
+    private Button btnPercent;
+    @FXML
+    private Button btnSub;
+    @FXML
+    private Button btnMult;
+    @FXML
+    private Button btnDiv;
+    @FXML
+    private Button btnAdd;
+    @FXML
+    private Button btnCalc;
+
+    //Flags
+    private boolean textFieldIsEmpty = true;
+    private boolean isResult = false;
+    //Operands
+    double firstOperand;
+    double secondOperand;
 
     @FXML
     public void initialize(){
@@ -60,64 +79,126 @@ public class CalculatorRootPane implements IFxmlPane {
 
         textField.setEditable(false);           //Запрещаем ввод текста в textField
 
+        btnAdd.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!textFieldIsEmpty) {
+                    firstOperand = Double.parseDouble(textField.getText());
+                    textField.appendText(" + ");
+                }
+            }
+        });
+
+        btnSub.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!textFieldIsEmpty) {
+                    firstOperand = Double.parseDouble(textField.getText());
+                    textField.appendText(" - ");
+                }
+            }
+        });
+
+        btnDiv.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!textFieldIsEmpty) {
+                    firstOperand = Double.parseDouble(textField.getText());
+                    textField.appendText(" / ");
+                }
+            }
+        });
+
+        btnMult.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!textFieldIsEmpty) {
+                    firstOperand = Double.parseDouble(textField.getText());
+                    textField.appendText(" * ");
+                }
+            }
+        });
+
+        btnPercent.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!textFieldIsEmpty) {
+                    firstOperand = Double.parseDouble(textField.getText());
+                    textField.appendText(" % ");
+                }
+            }
+        });
+
+        btnCalc.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!textFieldIsEmpty) {
+                    String parsed = textField.getText().split(" ")[2];
+                    secondOperand = Double.parseDouble(parsed);
+                    double result = firstOperand + secondOperand;
+                    textField.setText(String.valueOf(result));
+                }
+            }
+        });
+
         btnZero.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("0");
+                appendNumber("0");
             }
         });
         btnOne.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("1");
+                appendNumber("1");
             }
         });
         btnTwo.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("2");
+                appendNumber("2");
             }
         });
         btnThree.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("3");
+                appendNumber("3");
             }
         });
         btnFour.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("4");
+                appendNumber("4");
             }
         });
         btnFive.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("5");
+                appendNumber("5");
             }
         });
         btnSix.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("6");
+                appendNumber("6");
             }
         });
         btnSeven.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("7");
+                appendNumber("7");
             }
         });
         btnEight.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("8");
+                appendNumber("8");
             }
         });
         btnNine.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                textField.appendText("9");
+                appendNumber("9");
             }
         });
     }
@@ -131,12 +212,17 @@ public class CalculatorRootPane implements IFxmlPane {
         }
     }
 
+    private void appendNumber(String number) {
+        if(number.equals("0") && textFieldIsEmpty) {
+            //NOP
+        } else {
+            textField.appendText(number);
+            textFieldIsEmpty = false;
+        }
+    }
+
     @Override
     public Pane getRootPane() {
         return rootPane;
-    }
-
-    public void numFromKeyboard(String num) {
-        textField.appendText(num);
     }
 }
