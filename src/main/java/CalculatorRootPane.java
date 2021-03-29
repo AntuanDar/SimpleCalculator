@@ -51,16 +51,22 @@ public class CalculatorRootPane implements IFxmlPane {
     private Button btnAdd;
     @FXML
     private Button btnCalc;
+    @FXML
+    private Button btnDot;
 
     //Flags
     private boolean textFieldIsEmpty = true;
     private boolean isResult = false;
+    private boolean firstZero = false;
+    private boolean dotIntroduced = false;
     //Operands
     double firstOperand;
     double secondOperand;
 
     @FXML
     public void initialize(){
+        textField.setEditable(false);           //Запрещаем ввод текста в textField
+
         rootPane.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -77,147 +83,152 @@ public class CalculatorRootPane implements IFxmlPane {
             }
         });
 
-        textField.setEditable(false);           //Запрещаем ввод текста в textField
+        initButton(btnDot, event -> appendDot());
 
-        btnAdd.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!textFieldIsEmpty) {
-                    firstOperand = Double.parseDouble(textField.getText());
-                    textField.appendText(" + ");
-                }
+        initButton(btnAdd, event -> {
+            if (!textFieldIsEmpty) {
+                operatorPressed("+");
             }
         });
 
-        btnSub.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!textFieldIsEmpty) {
-                    firstOperand = Double.parseDouble(textField.getText());
-                    textField.appendText(" - ");
-                }
+        initButton(btnSub, event -> {
+            if (!textFieldIsEmpty) {
+                operatorPressed("-");
             }
         });
 
-        btnDiv.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!textFieldIsEmpty) {
-                    firstOperand = Double.parseDouble(textField.getText());
-                    textField.appendText(" / ");
-                }
+        initButton(btnDiv, event -> {
+            if (!textFieldIsEmpty) {
+                operatorPressed("/");
             }
         });
 
-        btnMult.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!textFieldIsEmpty) {
-                    firstOperand = Double.parseDouble(textField.getText());
-                    textField.appendText(" * ");
-                }
+        initButton(btnMult, event -> {
+            if (!textFieldIsEmpty) {
+                operatorPressed("*");
             }
         });
 
-        btnPercent.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!textFieldIsEmpty) {
-                    firstOperand = Double.parseDouble(textField.getText());
-                    textField.appendText(" % ");
-                }
+        initButton(btnPercent, event -> {
+            if (!textFieldIsEmpty) {
+                operatorPressed("%");
             }
         });
 
-        btnCalc.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!textFieldIsEmpty) {
-                    String parsed = textField.getText().split(" ")[2];
-                    secondOperand = Double.parseDouble(parsed);
-                    double result = firstOperand + secondOperand;
-                    textField.setText(String.valueOf(result));
-                }
+        initButton(btnCalc, event -> {
+            if (!textFieldIsEmpty) {
+                calculate();
             }
         });
 
-        btnZero.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnZero, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("0");
-            }
         });
-        btnOne.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnOne, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("1");
-            }
         });
-        btnTwo.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnTwo, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("2");
-            }
         });
-        btnThree.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnThree, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("3");
-            }
         });
-        btnFour.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnFour, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("4");
-            }
         });
-        btnFive.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnFive, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("5");
-            }
         });
-        btnSix.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnSix, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("6");
-            }
         });
-        btnSeven.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnSeven, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("7");
-            }
         });
-        btnEight.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnEight, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("8");
-            }
         });
-        btnNine.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        initButton(btnNine, event -> {
+            if (event.isPrimaryButtonDown())
                 appendNumber("9");
-            }
         });
+
+    }
+
+    private void operatorPressed(String s) {
+        //Заготовка под парсинг целой и дробной части по отдельности
+        String[] firstOperands;
+        if (textField.getText().contains(".")) {
+            firstOperands = textField.getText().split("\\.");
+        }
+
+        firstOperand = Double.parseDouble(textField.getText());
+        textField.appendText(" " + s + " ");
+        textFieldIsEmpty = true;
+        firstZero = false;
+        dotIntroduced = false;
+    }
+
+    private void calculate() {
+        String parsed = textField.getText().split(" ")[2];
+        secondOperand = Double.parseDouble(parsed);
+        double result = firstOperand + secondOperand;
+        textField.setText(String.valueOf(result));
+    }
+
+    private void initButton(Button button, EventHandler<MouseEvent> handler) {
+        button.addEventFilter(MouseEvent.MOUSE_PRESSED, handler);
     }
 
     private boolean isNumber(String text) {
-        try {
-            Integer.parseInt(text);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return text.matches("-?[0-9]+");
     }
 
     private void appendNumber(String number) {
-        if(number.equals("0") && textFieldIsEmpty) {
-            //NOP
+        if(number.equals("0")) {
+            appendZero();
         } else {
+            if (firstZero) {
+                textField.deleteText(textField.getText().length() - 1, textField.getText().length());
+                firstZero = false;
+                textFieldIsEmpty = true;
+            }
             textField.appendText(number);
             textFieldIsEmpty = false;
+            firstZero = false;
+        }
+    }
+    private void appendZero() {
+        if (textFieldIsEmpty) {
+            textField.appendText("0");
+            textFieldIsEmpty = false;
+            firstZero = true;
+        } else if (dotIntroduced) {
+            textField.appendText("0");
+            firstZero = false;
+        } else if (!firstZero) {
+            textField.appendText("0");
+        }
+    }
+
+    private void appendDot() {
+        if (textFieldIsEmpty) {
+            textField.appendText("0.");
+            textFieldIsEmpty = false;
+            dotIntroduced = true;
+        } else if (!dotIntroduced){
+            textField.appendText(".");
+            dotIntroduced = true;
+            firstZero = false;
         }
     }
 
