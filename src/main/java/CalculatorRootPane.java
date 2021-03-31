@@ -53,6 +53,10 @@ public class CalculatorRootPane implements IFxmlPane {
     private Button btnCalc;
     @FXML
     private Button btnDot;
+    @FXML
+    private Button btnC;
+    @FXML
+    private Button btnRemove;
 
     //Flags
     private boolean textFieldIsEmpty = true;
@@ -83,35 +87,39 @@ public class CalculatorRootPane implements IFxmlPane {
             }
         });
 
+        initButton(btnC, event -> getClear());
+
+        initButton(btnRemove, event -> textField.deleteText(textField.getText().length() -1, textField.getText().length()));
+
         initButton(btnDot, event -> appendDot());
 
         initButton(btnAdd, event -> {
             if (!textFieldIsEmpty) {
-                operatorPressed("+");
+                appendOperator("+");
             }
         });
 
         initButton(btnSub, event -> {
             if (!textFieldIsEmpty) {
-                operatorPressed("-");
+                appendOperator("-");
             }
         });
 
         initButton(btnDiv, event -> {
             if (!textFieldIsEmpty) {
-                operatorPressed("/");
+                appendOperator("/");
             }
         });
 
         initButton(btnMult, event -> {
             if (!textFieldIsEmpty) {
-                operatorPressed("*");
+                appendOperator("*");
             }
         });
 
         initButton(btnPercent, event -> {
             if (!textFieldIsEmpty) {
-                operatorPressed("%");
+                appendOperator("%");
             }
         });
 
@@ -164,7 +172,15 @@ public class CalculatorRootPane implements IFxmlPane {
 
     }
 
-    private void operatorPressed(String s) {
+    private void getClear() {
+        textField.clear();
+        isResult = false;
+        textFieldIsEmpty = true;
+        dotIntroduced = false;
+        firstZero = false;
+    }
+
+    private void appendOperator(String s) {
         //Заготовка под парсинг целой и дробной части по отдельности
         String[] firstOperands;
         if (textField.getText().contains(".")) {
@@ -179,10 +195,29 @@ public class CalculatorRootPane implements IFxmlPane {
     }
 
     private void calculate() {
-        String parsed = textField.getText().split(" ")[2];
-        secondOperand = Double.parseDouble(parsed);
-        double result = firstOperand + secondOperand;
+        String[] parsedArray = textField.getText().split(" ");
+        secondOperand = Double.parseDouble(parsedArray[2]);
+        double result = 0;
+        switch (parsedArray[1]) {
+            case "+":
+                result = firstOperand + secondOperand;
+                break;
+            case "-":
+                result = firstOperand - secondOperand;
+                break;
+            case "/":
+                result = firstOperand / secondOperand;
+                break;
+            case "*":
+                result = firstOperand * secondOperand;
+                break;
+            case "%":
+                result = (firstOperand * secondOperand) / 100;
+                break;
+        }
+
         textField.setText(String.valueOf(result));
+        isResult = true;
     }
 
     private void initButton(Button button, EventHandler<MouseEvent> handler) {
@@ -194,6 +229,9 @@ public class CalculatorRootPane implements IFxmlPane {
     }
 
     private void appendNumber(String number) {
+        if (isResult) {
+            getClear();
+        }
         if(number.equals("0")) {
             appendZero();
         } else {
