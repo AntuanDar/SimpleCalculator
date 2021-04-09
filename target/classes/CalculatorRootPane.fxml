@@ -6,49 +6,49 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="rootPane" minHeight="260.0" minWidth="410.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CalculatorRootPane">
+<AnchorPane fx:id="rootPane" maxHeight="460.0" maxWidth="410.0" minHeight="460.0" minWidth="410.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CalculatorRootPane">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="38.0" layoutY="4.0" minHeight="250.0" minWidth="400.0" spacing="5.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <TextField fx:id="textField" alignment="CENTER_RIGHT" minHeight="69.0" prefHeight="69.0" prefWidth="335.0" promptText="0" />
             <HBox prefHeight="43.0" prefWidth="335.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="btnPercent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="\%" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnC" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="C" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnRemove" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="&lt;-" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnDiv" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="/" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnPercent" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="\%" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnC" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="C" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnRemove" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="&lt;-" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnDiv" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="/" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox prefHeight="46.0" prefWidth="335.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="btnSeven" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="7" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnEight" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="8" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnNine" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="9" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnMult" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="*" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnSeven" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="7" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnEight" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="8" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnNine" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="9" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnMult" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="*" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox prefHeight="48.0" prefWidth="335.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="btnFour" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="4" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnFive" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="5" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnSix" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="6" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnSub" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="-" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnFour" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="4" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnFive" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="5" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnSix" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="6" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnSub" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="-" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox prefHeight="45.0" prefWidth="335.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="btnOne" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="1" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnTwo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="2" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnThree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="3" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnAdd" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="+" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnOne" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="1" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnTwo" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="2" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnThree" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="3" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnAdd" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="+" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox prefHeight="42.0" prefWidth="335.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="btnSign" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="+/-" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnZero" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnDot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="," HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnCalc" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="=" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnSign" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="+/-" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnZero" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnDot" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="," HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnCalc" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="=" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>

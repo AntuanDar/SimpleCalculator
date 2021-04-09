@@ -2,11 +2,15 @@ import common.IFxmlPane;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -62,14 +66,12 @@ public class CalculatorRootPane implements IFxmlPane {
     private boolean textFieldIsEmpty = true;
     private boolean isResult = false;
     private boolean firstZero = false;
-    private boolean dotIntroduced = false;
-    //Operands
-    double firstOperand;
-    double secondOperand;
+
 
     @FXML
     public void initialize(){
         textField.setEditable(false);           //Запрещаем ввод текста в textField
+        textField.setContextMenu(new ContextMenu());
 
         rootPane.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
             @Override
@@ -81,47 +83,36 @@ public class CalculatorRootPane implements IFxmlPane {
         rootPane.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (isNumber(event.getText())) {
-                    textField.appendText(event.getText());
+                if (event.getCode().isDigitKey()) {
+                    appendNumber(event.getText());
+                } else if (event.getCode() == KeyCode.SUBTRACT || event.getCode() == KeyCode.MULTIPLY
+                        || event.getCode() == KeyCode.DIVIDE || event.getCode() == KeyCode.ADD) {
+                    appendOperator(event.getText());
+                } else if (event.getCode() == KeyCode.DECIMAL){
+                    appendDot();
+                } else if (event.getCode() == KeyCode.ENTER) {
+                    calculate();
+                } else if (event.getCode() == KeyCode.BACK_SPACE) {
+                    deleteText();
                 }
             }
         });
 
         initButton(btnC, event -> getClear());
 
-        initButton(btnRemove, event -> textField.deleteText(textField.getText().length() -1, textField.getText().length()));
+        initButton(btnRemove, event -> deleteText());
 
         initButton(btnDot, event -> appendDot());
 
-        initButton(btnAdd, event -> {
-            if (!textFieldIsEmpty) {
-                appendOperator("+");
-            }
-        });
+        initButton(btnAdd, event -> appendOperator("+"));
 
-        initButton(btnSub, event -> {
-            if (!textFieldIsEmpty) {
-                appendOperator("-");
-            }
-        });
+        initButton(btnSub, event -> appendOperator("-"));
 
-        initButton(btnDiv, event -> {
-            if (!textFieldIsEmpty) {
-                appendOperator("/");
-            }
-        });
+        initButton(btnDiv, event -> appendOperator("/"));
 
-        initButton(btnMult, event -> {
-            if (!textFieldIsEmpty) {
-                appendOperator("*");
-            }
-        });
+        initButton(btnMult, event -> appendOperator("*"));
 
-        initButton(btnPercent, event -> {
-            if (!textFieldIsEmpty) {
-                appendOperator("%");
-            }
-        });
+        initButton(btnPercent, event -> appendOperator("%"));
 
         initButton(btnCalc, event -> {
             if (!textFieldIsEmpty) {
@@ -172,100 +163,162 @@ public class CalculatorRootPane implements IFxmlPane {
 
     }
 
+    private boolean firstZero() {
+        if (textField.getText().length() > 0) {
+            return textField.getText().charAt(0) == '0';
+        }
+        return false;
+    }
+
+    private void deleteText() {
+        String operand = getLastString();
+        if ((operand != null && !operand.isEmpty()) && !operand.matches("[ +\\-*\\/% ]{3}")) {
+            textField.deleteText(textField.getText().length() - 1, textField.getText().length());
+        }
+    }
+    // Метод возвращает строку из последних трёх символов, если длина строки больше 3
+    private String getLastString() {
+        String operand = "";
+        if (textField.getText().length() >= 3) {
+            operand = textField.getText().substring(textField.getText().length() - 3);
+        }
+        return operand;
+    }
+    // Метод очищает текстфилд
     private void getClear() {
         textField.clear();
         isResult = false;
         textFieldIsEmpty = true;
-        dotIntroduced = false;
         firstZero = false;
     }
-
+    // Метод проверяет условия и добавляет оператор к текстфилду
     private void appendOperator(String s) {
-        //Заготовка под парсинг целой и дробной части по отдельности
-        String[] firstOperands;
-        if (textField.getText().contains(".")) {
-            firstOperands = textField.getText().split("\\.");
+        String operand = getLastString();
+        if (operand.matches("[ +\\-*\\/% ]{3}")) {
+            textField.deleteText(textField.getText().length() - 3, textField.getText().length());
         }
+        if (textField.getText().split(" ").length > 2) {
+            String[] arrayOfOperands = textField.getText().split(" ");
+            calculateFromString(arrayOfOperands);
+        }
+        if (!textFieldIsEmpty()) {
+            textField.appendText(" " + s + " ");
+            textFieldIsEmpty = true;
+            firstZero = false;
+        }
+    }
 
-        firstOperand = Double.parseDouble(textField.getText());
-        textField.appendText(" " + s + " ");
-        textFieldIsEmpty = true;
-        firstZero = false;
-        dotIntroduced = false;
+    // Метод парсит строку, вычисляет результат и выводит в текстфилд
+    private void calculateFromString(String[] arrayOfOperands) {
+
+        BigDecimal first = new BigDecimal(arrayOfOperands[0]);
+        BigDecimal second = new BigDecimal(arrayOfOperands[2]);
+        BigDecimal result = null;
+
+        if (arrayOfOperands[1].equals("+")) {
+            result = first.add(second);
+        } else if (arrayOfOperands[1].equals("-")) {
+            result = first.subtract(second);
+        } else if (arrayOfOperands[1].equals("*")) {
+            result = first.multiply(second);
+        } else if (arrayOfOperands[1].equals("/")) {
+            if (second.doubleValue() == 0) {
+                textField.setText("На ноль делить нельзя, мудило");
+                return;
+            }
+            result = first.divide(second);
+        } else if (arrayOfOperands[1].equals("%")) {
+
+            result = first.multiply(second).divide(new BigDecimal(100));
+
+        }
+        textField.setText(String.valueOf(result));
+        isResult = true;
+    }
+
+    // Проверяет пустой ли текстфилд
+    private boolean textFieldIsEmpty() {
+        return textField.getText().length() < 1;
     }
 
     private void calculate() {
-        String[] parsedArray = textField.getText().split(" ");
-        secondOperand = Double.parseDouble(parsedArray[2]);
-        double result = 0;
-        switch (parsedArray[1]) {
-            case "+":
-                result = firstOperand + secondOperand;
-                break;
-            case "-":
-                result = firstOperand - secondOperand;
-                break;
-            case "/":
-                result = firstOperand / secondOperand;
-                break;
-            case "*":
-                result = firstOperand * secondOperand;
-                break;
-            case "%":
-                result = (firstOperand * secondOperand) / 100;
-                break;
+        if (textField.getText().split(" ").length > 2) {
+            String[] arrayOfOperands = textField.getText().split(" ");
+            calculateFromString(arrayOfOperands);
         }
-
-        textField.setText(String.valueOf(result));
-        isResult = true;
     }
 
     private void initButton(Button button, EventHandler<MouseEvent> handler) {
         button.addEventFilter(MouseEvent.MOUSE_PRESSED, handler);
     }
 
-    private boolean isNumber(String text) {
-        return text.matches("-?[0-9]+");
+    // Метод проверяет условия и добавляет цифру к текстфилду
+    private void appendNumber(String number) {
+        if (operandLength() < 15) {
+            if (isResult && !lastStringOperator()) {
+                getClear();
+            }
+            if(number.equals("0")) {
+                appendZero();
+            } else {
+                if (firstZero) {
+                    textField.deleteText(textField.getText().length() - 1, textField.getText().length());
+                    firstZero = false;
+                    textFieldIsEmpty = true;
+                }
+                textField.appendText(number);
+                textFieldIsEmpty = false;
+                firstZero = false;
+                isResult = false;
+            }
+        }
     }
 
-    private void appendNumber(String number) {
-        if (isResult) {
-            getClear();
-        }
-        if(number.equals("0")) {
-            appendZero();
+    private int operandLength() {
+        String[] array = textField.getText().split(" ");
+        if (array.length > 2) {
+            return array[2].length();
+        } else if (array.length == 1){
+            return array[0].length();
         } else {
-            if (firstZero) {
-                textField.deleteText(textField.getText().length() - 1, textField.getText().length());
-                firstZero = false;
-                textFieldIsEmpty = true;
-            }
-            textField.appendText(number);
-            textFieldIsEmpty = false;
-            firstZero = false;
+            return -1;
         }
     }
+
+    private boolean lastStringOperator() {
+        String str = getLastString().trim();
+        return str.matches("[*\\/\\-+%]");
+    }
+
+    // Метод проверяет условия и добавляет ноль к текстфилду
     private void appendZero() {
         if (textFieldIsEmpty) {
             textField.appendText("0");
             textFieldIsEmpty = false;
             firstZero = true;
-        } else if (dotIntroduced) {
+        } else if (isDotIntroduced()) {
             textField.appendText("0");
             firstZero = false;
-        } else if (!firstZero) {
+        } else if (!firstZero()) {
             textField.appendText("0");
         }
     }
 
+    private boolean isDotIntroduced() {
+        String[] array = textField.getText().split(" ");
+        if (array.length > 2) {
+            return array[2].contains(".");
+        } else {
+            return textField.getText().contains(".");
+        }
+    }
+    // Метод проверяет условия и добавляет десятичную точку к текстфилду
     private void appendDot() {
         if (textFieldIsEmpty) {
             textField.appendText("0.");
             textFieldIsEmpty = false;
-            dotIntroduced = true;
-        } else if (!dotIntroduced){
+        } else if (!isDotIntroduced()){
             textField.appendText(".");
-            dotIntroduced = true;
             firstZero = false;
         }
     }

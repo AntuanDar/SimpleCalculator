@@ -1,3 +1,6 @@
 .red-label .text {
     -fx-fill: red;
 }
+.button {
+    -fx-border-color: transparent;
+}
